@@ -42,7 +42,6 @@ export const NewTask: React.FC = () => {
         onSubmit={onSubmit}
         spacing={[2, 4]}
         direction={["column", "row"]}
-        px={2}
       >
         <Input
           placeholder="Adicione uma nova tarefa"
