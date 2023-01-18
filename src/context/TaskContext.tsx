@@ -11,7 +11,6 @@ type Task = {
   id: string;
   title: string;
   done: boolean;
-  created_at: Date;
 };
 
 interface TaskContextData {
@@ -34,19 +33,24 @@ export const TaskContext = createContext<TaskContextData>(
 export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
   const [tasks, setTasks] = useState<Task[]>([]);
 
+  const sortTasks = useCallback(() => {
+    setTasks((prev) => prev.sort((a) => (a.done ? 1 : -1)));
+  }, [tasks]);
+
   const createTask = useCallback((title: string) => {
     const task: Task = {
       id: uuid(),
       title,
       done: false,
-      created_at: new Date(),
     };
 
     setTasks((prev) => [...prev, task]);
+    sortTasks();
   }, []);
 
   const removeTask = useCallback((id: string) => {
     setTasks((prev) => prev.filter((task) => task.id !== id));
+    sortTasks();
   }, []);
 
   const toggleTask = useCallback((id: string) => {
@@ -55,6 +59,7 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
         task.id === id ? { ...task, done: !task.done } : task
       )
     );
+    sortTasks();
   }, []);
 
   const totalDoneTasks = useMemo(
