@@ -1,4 +1,10 @@
-import { createContext, useCallback, useContext, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
 import { v4 as uuid } from "uuid";
 
 type Task = {
@@ -10,6 +16,8 @@ type Task = {
 
 interface TaskContextData {
   tasks: Task[];
+  totalDoneTasks: number;
+  totalTasks: number;
   createTask: (title: string) => void;
   removeTask: (id: string) => void;
   toggleTask: (id: string) => void;
@@ -49,8 +57,23 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
     );
   }, []);
 
+  const totalDoneTasks = useMemo(
+    () => tasks.filter((task) => task.done).length,
+    [tasks]
+  );
+  const totalTasks = useMemo(() => tasks.length, [tasks]);
+
   return (
-    <TaskContext.Provider value={{ tasks, createTask, removeTask, toggleTask }}>
+    <TaskContext.Provider
+      value={{
+        tasks,
+        totalDoneTasks,
+        totalTasks,
+        createTask,
+        removeTask,
+        toggleTask,
+      }}
+    >
       {children}
     </TaskContext.Provider>
   );
