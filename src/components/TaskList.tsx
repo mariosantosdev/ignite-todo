@@ -12,7 +12,7 @@ export const TaskList: React.FC = () => {
       maxW="container.sm"
       w="full"
       mx="auto"
-      mt={12}
+      mt={8}
     >
       {tasks.map(({ id, title, done }) => (
         <Task key={id} id={id} title={title} done={done} />
