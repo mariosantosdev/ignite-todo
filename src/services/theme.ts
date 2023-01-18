@@ -1,4 +1,5 @@
 import { extendTheme } from "@chakra-ui/react";
+import { checkboxTheme } from "./theme/checkbox";
 
 const colors = {
   danger: "#E25858",
@@ -32,6 +33,7 @@ const components = {
       },
     },
   },
+  Checkbox: checkboxTheme,
 };
 
 const fonts = {
